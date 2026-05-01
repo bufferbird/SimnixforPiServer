@@ -2,6 +2,7 @@
 #define HARDWARE_H
 
 #include <stdint.h>
+typedef volatile uint32_t reg32;
 
 /* --- Basis-Adressen (Pi 3 / BCM2837) --- */
 #define PERIPHERAL_BASE 0x3F000000
