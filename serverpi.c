@@ -14,8 +14,8 @@ uint32_t* fb_ptr = 0;
 
 static void vga_init() {
     // Mailbox-Buffer vorbereiten
-    mailbox[0] = 35 * 4;        // Buffer Größe
-    mailbox[1] = 0;             // Request Code (0 = Process Request)
+    mailbox[0] = 35 * 4;        
+    mailbox[1] = 0;            
 
     mailbox[2] = 0x00048003;    // Tag: Set Physical Width/Height
     mailbox[3] = 8;             // Value Buffer Größe
@@ -40,32 +40,27 @@ static void vga_init() {
     mailbox[19] = 4096;         // Alignment (Request)
     mailbox[20] = 0;            // Framebuffer Adresse (Response)
 
-    mailbox[21] = 0;            // End Tag (Wichtig!)
-
-    // Senden: Warten bis Mailbox nicht mehr voll
+    mailbox[21] = 0;            // End Tag
     while (*(volatile uint32_t*)MBOX_STATUS & 0x80000000);
-    
-    // Adresse der Mailbox (oberste 28 Bit) + Kanal 8 (untere 4 Bit)
     *(volatile uint32_t*)MBOX_WRITE = ((uint32_t)(uintptr_t)mailbox & ~0xF) | 8;
 
-    // Warten auf Antwort
+
     while (1) {
-        while (*(volatile uint32_t*)MBOX_STATUS & 0x40000000); // Warten bis leer
+        while (*(volatile uint32_t*)MBOX_STATUS & 0x40000000); 
         uint32_t response = *(volatile uint32_t*)MBOX_READ;
-        if ((response & 0xF) == 8) break; // Nur Antworten auf Kanal 8 akzeptieren
+        if ((response & 0xF) == 8) break;
     }
 
-    // Prüfen ob Request erfolgreich (0x80000000 in mailbox[1])
+
     if (mailbox[1] == 0x80000000 && mailbox[20] != 0) {
-        // GPU-Adresse in CPU-Adresse umwandeln (Bus-Alias maskieren)
         fb_ptr = (uint32_t*)(uintptr_t)(mailbox[20] & 0x3FFFFFFF);
     } else {
-        fb_ptr = 0; // Fehler
+        fb_ptr = 0; 
     }
 }
 
 static void __initscreen__(){
-    if (!fb_ptr) return; // Nicht zeichnen wenn FB fehlt
+    if (!fb_ptr) return; 
     
     kclear_screen(0x00008B);
     kprint("Kernel - Version 1.0.0, May 2026.");
@@ -78,7 +73,7 @@ static void __initscreen__(){
 void uart_init() {
     *UART0_CR = 0; 
 
-    // GPIO 14 & 15 auf Alternate Function 0 (UART0)
+
     *GPFSEL1 &= ~((7 << 12) | (7 << 15));
     *GPFSEL1 |= (4 << 12) | (4 << 15);    
 
@@ -88,17 +83,16 @@ void uart_init() {
     for(int i=0; i<150; i++) __asm__("nop");
     *GPPUDCLK0 = 0;
 
-    *UART0_ICR = 0x7FF; // Alle Interrupts löschen
-    *UART0_IBRD = 26;   // 115200 Baud bei 48MHz
+    *UART0_ICR = 0x7FF; 
+    *UART0_IBRD = 26;   
     *UART0_FBRD = 3;
-    *UART0_LCRH = (3 << 5); // 8 bit, FIFO an
-    *UART0_CR = 0x301;  // RX/TX an
-}
+    *UART0_LCRH = (3 << 5);
+    *UART0_CR = 0x301;  
 
 void k_main(void){
     uart_init(); 
     
-    // Direkt-Debug über UART (Register-Zugriff)
+   
     *((volatile uint32_t*)0x3F201000) = 'O';
     *((volatile uint32_t*)0x3F201000) = 'K';
     *((volatile uint32_t*)0x3F201000) = '\n';
@@ -109,7 +103,6 @@ void k_main(void){
         __initscreen__();
         kprintf(ANSI_GREEN "FB loaded at 0x%x\n", (uint32_t)(uintptr_t)fb_ptr);
     } else {
-        // UART Fallback falls FB in QEMU scheitert
         *((volatile uint32_t*)0x3F201000) = 'F';
         *((volatile uint32_t*)0x3F201000) = 'B';
         *((volatile uint32_t*)0x3F201000) = '!';
