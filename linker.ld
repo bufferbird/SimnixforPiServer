@@ -3,15 +3,13 @@ ENTRY(_start)
 SECTIONS
 {
     . = 0x80000;
+    _start_limit = .;
 
-  
     .init : {
-        __init_start = .;
-        KEEP(*(.text.boot))   
-        *(.init.text)         
-        *(.init.data)        
+        KEEP(*(.text.boot))
+        *(.init.text)
+        *(.init.data)
         . = ALIGN(8);
-        __init_end = .;      
     }
 
     .text : {
@@ -34,6 +32,11 @@ SECTIONS
         __bss_start = .;
         *(.bss)
         *(COMMON)
+        . = ALIGN(8); 
         __bss_end = .;
     }
+
+    . = ALIGN(16);
+    . += 0x100000; 
+    _stack_top = .;
 }
