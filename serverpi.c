@@ -93,6 +93,11 @@ void uart_init() {
 
 void k_main(void){
   uart_init(); 
+  *UART0_DR = 'T';
+  *UART0_DR = 'E';
+  *UART0_DR = 'S';
+  *UART0_DR = 'T';
+  *UART0_DR = '\n';
   vga_init(); 
   
   if (fb_ptr != NULL){
