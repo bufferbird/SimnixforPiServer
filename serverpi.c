@@ -59,16 +59,14 @@ static void vga_init(){
 
 
 static void __initscreen__(){
-  kclear_screen(0x00000000);
-  kprint("Kernel - ");
+  kclear_screen(0x00008B);
+  kprint("Kernel - Version 1.0.0, May 2026.");
   kprint("Simnix - Simnix v3.6");
   kprint("Ready for input...");
   kprint("Server for TiChat."); 
   kprintf("~$>>"); 
 
 }
-
-
 
 void uart_init() {
     *UART0_CR = 0; 
@@ -114,7 +112,7 @@ void k_main(void){
   }
   kprintf("Loading UART at 0x%x",UART0_BASE); 
   kprint("[OK] Loaded UART successfully.");
-  
+  kprintf("[OK] Finished!");
   while (1){
     __asm__("wfe");
   }
