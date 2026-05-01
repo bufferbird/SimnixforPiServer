@@ -91,6 +91,7 @@ void uart_init() {
     *UART0_FBRD = 3;
     *UART0_LCRH = (3 << 5);
     *UART0_CR = 0x301;  
+}
 
 void k_main(void){
     uart_init(); 
