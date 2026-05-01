@@ -13,7 +13,7 @@ uint32_t* fb_ptr = 0;
 static void vga_init(){
     /* Yes. we have to do this. */
 
-    __attribute__(aligned(16) uint32_t mailbox[32];
+    aligned(16) uint32_t mailbox[32];
     mailbox[0] = 35 * 4;  
     mailbox[1] = 0;        
 
@@ -101,8 +101,8 @@ void k_main(void){
   *((volatile uint32_t*)0x3F201000) = '\n';
   vga_init(); 
   *UART0_DR = 'fb_ptr';
+  __initscreen__(); 
   if (1){
-    __initscreen__(); 
     kprintf(ANSI_GREEN "Loading Framebuffer at 0x%x", MBOX_BASE); 
     kprint(ANSI_GREEN "[OK] Successfully loaded Framebuffer.");
   }
