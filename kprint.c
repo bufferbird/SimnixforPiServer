@@ -76,7 +76,7 @@ void kprint_hex(uint32_t d) {
 
 extern void kputc(char c);
 
-void kprintf(char* fmt, ...) {
+void kprintf(const char* fmt, ...) {
     va_list args;
     va_start(args, fmt);
 
