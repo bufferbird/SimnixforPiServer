@@ -84,7 +84,7 @@ void kprintf(const char* fmt, ...) {
     int n;
     uint32_t val;
     int nibble;
-    char buf[12];
+    char buf[1024];
     int i;
     const char* p;
 
