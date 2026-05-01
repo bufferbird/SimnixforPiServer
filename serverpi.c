@@ -66,8 +66,8 @@ static void __initscreen__(){
     kprint("Kernel - Version 1.0.0, May 2026.");
     kprint("Simnix - Simnix v3.6");
     kprint("Ready for input...");
-    *((volatile uint32_t*)0x3F201000) = '💀';
-    *((volatile uint32_t*)0x3F201000) = 'K';
+    *((volatile uint32_t*)0x3F201000) = 'o';
+    *((volatile uint32_t*)0x3F201000) = 'o';
     *((volatile uint32_t*)0x3F201000) = '\n';
     kprint("Server for TiChat."); 
     kprintf("~$>>"); 
