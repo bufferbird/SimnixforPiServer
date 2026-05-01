@@ -97,14 +97,10 @@ void k_main(void){
   *UART0_DR = 'E';
   *UART0_DR = 'S';
   *UART0_DR = 'T';
-  *UART0_DR = '\n'
+  *UART0_DR = '\n';
   *((volatile uint32_t*)0x3F201000) = 'O';
   *((volatile uint32_t*)0x3F201000) = 'K';
   *((volatile uint32_t*)0x3F201000) = '\n';
-  
-  while(1) { __asm__("wfe"); }
-}
-
   vga_init(); 
   *UART0_DR = fb_ptr;
   if (1){
