@@ -99,7 +99,7 @@ void k_main(void){
   *UART0_DR = 'T';
   *UART0_DR = '\n';
   vga_init(); 
-  
+  *UART0_DR = fb_ptr;
   if (1){
     __initscreen__(); 
     kprintf(ANSI_GREEN "Loading Framebuffer at 0x%x", MBOX_BASE); 
