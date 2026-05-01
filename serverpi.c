@@ -102,7 +102,7 @@ void k_main(void){
   
   if (fb_ptr != NULL){
     __initscreen__(); 
-    kprintf(ANSI_BOLD ANSI_GREEN "Loading Framebuffer at 0x%x", MBOX_BASE); 
+    kprintf(ANSI_GREEN "Loading Framebuffer at 0x%x", MBOX_BASE); 
     kprint(ANSI_GREEN "[OK] Successfully loaded Framebuffer.");
   }
   else {
