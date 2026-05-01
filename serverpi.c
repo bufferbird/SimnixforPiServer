@@ -107,17 +107,16 @@ void k_main(void){
     *((volatile uint32_t*)0x3F201000) = '\n';
 
     if (fb_ptr != 0) {
-        __initscreen__();
-        kprintf(ANSI_GREEN "FB loaded at 0x%x\n", (uint32_t)(uintptr_t)fb_ptr);
-    } else {
-        *((volatile uint32_t*)0x3F201000) = 'F';
-        *((volatile uint32_t*)0x3F201000) = 'B';
-        *((volatile uint32_t*)0x3F201000) = '!';
-    }
+    __initscreen__(); // Nur aufrufen, wenn wir eine Adresse haben
+    kprintf("FB loaded at 0x%x\n", (uint32_t)(uintptr_t)fb_ptr);
+  } else {
+    // Das hier wird jetzt erscheinen, wenn QEMU den FB verweigert
+    *((volatile uint32_t*)0x3F201000) = 'F';
+    *((volatile uint32_t*)0x3F201000) = 'B';
+    *((volatile uint32_t*)0x3F201000) = '!';
+    *((volatile uint32_t*)0x3F201000) = '\n';
+  }
 
-    kprint("[OK] Kernel is running.");
-
-    while (1){
-        __asm__("wfe");
-    }
+  kprint("[OK] Kernel is running.");
+  while (1) { __asm__("wfe"); }
 }
