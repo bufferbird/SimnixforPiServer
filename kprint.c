@@ -86,7 +86,7 @@ void kprintf(const char* fmt, ...) {
     int nibble;
     char buf[12];
     int i;
-    char* p;
+    const char* p;
 
     for (p = fmt; *p != '\0'; p++) {
         if (*p == '%') {
