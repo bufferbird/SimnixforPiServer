@@ -101,6 +101,9 @@ void k_main(void){
     *((volatile uint32_t*)0x3F201000) = '\n';
 
     vga_init(); 
+    *((volatile uint32_t*)0x3F201000) = 'v';
+    *((volatile uint32_t*)0x3F201000) = 'g';
+    *((volatile uint32_t*)0x3F201000) = '\n';
 
     if (fb_ptr != 0) {
         __initscreen__();
