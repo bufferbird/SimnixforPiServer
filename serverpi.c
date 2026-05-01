@@ -13,7 +13,8 @@ uint32_t* fb_ptr = 0;
 static void vga_init(){
     /* Yes. we have to do this. */
 
-    aligned(16) uint32_t mailbox[32];
+    aligned(16);
+    uint32_t mailbox[32];
     mailbox[0] = 35 * 4;  
     mailbox[1] = 0;        
 
