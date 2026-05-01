@@ -1,5 +1,4 @@
 #include "hardwarepi3.h"
-#include "stdDatatypes.h"
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdarg.h>
