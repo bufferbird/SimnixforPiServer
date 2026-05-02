@@ -1,17 +1,21 @@
 #include "errorhandler.h"
 #include <stdint.h>
 
+volatile char reason = 'x'; 
 
 void c_sync_error(void){
     kprintf("Can't divide by Zero"); 
     asm("wfe"); 
+    reason = 'A'; 
+    panic(); 
 }
 
-volatile char reason = 'x'; 
+
 
 void c_system_error(void){
     kprintf("An Error occured. ");
     kprintf("<KernelPanic>"); 
+    reason = 'S'; 
     panic();
 }
 
