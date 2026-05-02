@@ -31,7 +31,6 @@ exception_vector_table:
     b handle_userel_system_error
 
 .macro save_all_regs
-    sub sp, sp, #256 
     stp x0,  x1,  [sp, #-16]!
     stp x2,  x3,  [sp, #-16]!
     stp x4,  x5,  [sp, #-16]!
