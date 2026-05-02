@@ -10,7 +10,26 @@ void c_sync_error(void){
     panic(); 
 }
 
+void print_stack_trace() {
+    unsigned long *fp;
+    /*
+        We get the fp from now
+    */
+    asm volatile("mov %0, x29" : "=r"(fp));
 
+    kprintf("Stack Trace:");
+    while(fp != 0) {
+        unsigned long return_addr = *(fp + 1);
+        kprintf("  [<%p>]", return_addr);
+        
+        // Next frame...
+        
+        fp = (unsigned long *)(*fp);
+        
+        // Security Stop, so it finds an end
+        if (return_addr == 0) break;
+    }
+}
 
 void c_system_error(void){
     kprintf("An Error occured. ");
@@ -30,7 +49,7 @@ void errorpanic(){
         // VS Code sees this and dont come with his error squiggles
         sp = 0; 
     #endif
-
+    print_stack_trace(); 
 
 }
 
